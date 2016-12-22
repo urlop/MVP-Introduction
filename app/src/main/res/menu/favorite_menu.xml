@@ -7,9 +7,4 @@
         app:showAsAction="always"
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:title="Search"/>
-
-    <item
-        android:id="@+id/action_go_favorites"
-        app:showAsAction="never"
-        android:title="Go Favorites"/>
 </menu>

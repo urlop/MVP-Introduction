@@ -34,6 +34,6 @@
     <!-- Movie Activity -->
     <string name="search_hint">Search…</string>
     <string name="popular_movies">Popular Movies</string>
-
+    <string name="favorite_movies">Favorite Movies</string>
 
 </resources>

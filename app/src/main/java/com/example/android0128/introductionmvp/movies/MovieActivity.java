@@ -27,6 +27,7 @@ import com.example.android0128.introductionmvp.R;
 import com.example.android0128.introductionmvp.data.Injection;
 import com.example.android0128.introductionmvp.data.QueryModel;
 import com.example.android0128.introductionmvp.data.source.QueryResponse;
+import com.example.android0128.introductionmvp.moviesFavorite.FavoriteMoviesActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,8 +92,6 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
         pb_shows_more.setVisibility(View.VISIBLE);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -151,6 +150,17 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
             setupSearchView();
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_go_favorites:
+                Intent intent = new Intent(this, FavoriteMoviesActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupSearchView() {
@@ -259,7 +269,7 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
 
     @Override
     public void showNoMovies() {
-        Toast.makeText(this, "No data", Toast.LENGTH_SHORT).show();
+        showMessage("No data");
         //TODO show empty view
         /*mTasksView.setVisibility(View.GONE);
         mNoTasksView.setVisibility(View.VISIBLE);*/
@@ -268,17 +278,6 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
     @Override
     public void showFilteringPopUpMenu() {
         //TODO fill
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.start();
-    }
-
-    @Override
-    public void setPresenter(@NonNull MoviesContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     /**
@@ -298,5 +297,17 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
     @Override
     public boolean isActive() {
         return !isFinishing();
+    }
+
+    @Override
+    public void setPresenter(@NonNull MoviesContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
+    //Very Important
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
     }
 }

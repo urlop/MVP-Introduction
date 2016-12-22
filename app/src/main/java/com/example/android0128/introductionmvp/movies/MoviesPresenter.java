@@ -39,10 +39,9 @@ public class MoviesPresenter implements MoviesContract.Presenter {
     private boolean mFirstLoad = true;
     int page = 1;
 
-    boolean isInDB;
     QueryResponse sugarResponse = new QueryResponse();
 
-    public MoviesPresenter(@NonNull MoviesContract.View view, String language) {//@NonNull TasksRepository tasksRepository, @NonNull TasksContract.View tasksView) {
+    public MoviesPresenter(@NonNull MoviesContract.View view, String language) {//@NonNull TasksRepository tasksRepository
         /*mTasksRepository = checkNotNull(tasksRepository, "tasksRepository cannot be null");*/
         mMoviesView = checkNotNull(view, "moviesView cannot be null!");
         mMoviesView.setPresenter(this);
