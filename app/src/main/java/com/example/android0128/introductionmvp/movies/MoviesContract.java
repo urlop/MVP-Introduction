@@ -35,7 +35,7 @@ public interface MoviesContract {
 
         void showMovies(List<QueryModel> movies);
 
-        void showMovieDetailsUi(String movieId);
+        void showMovieDetailsUi(QueryModel movie);
 
         void showLoadingMoviesError();
 
@@ -46,6 +46,8 @@ public interface MoviesContract {
         boolean isActive();
 
         void showFilteringPopUpMenu();
+
+        void showFavoriteResult(boolean favoriteBefore);
     }
 
     interface Presenter extends BasePresenter {

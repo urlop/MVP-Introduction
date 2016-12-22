@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.example.android0128.introductionmvp.R;
 import com.example.android0128.introductionmvp.data.Injection;
 import com.example.android0128.introductionmvp.data.QueryModel;
+import com.example.android0128.introductionmvp.data.source.QueryResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -231,13 +233,18 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
     }
 
     @Override
-    public void showMovieDetailsUi(String movieId) {
+    public void showMovieDetailsUi(QueryModel model) {
         //TODO fill
         /*QueryModel item = query_ls.get(position);
         Intent i = new Intent(context, ItemDetailActivity.class);
         i.putExtra("models",item);
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(i);*/
+    }
+
+    @Override
+    public void showFavoriteResult(boolean favoriteBefore) {
+        Toast.makeText(this, favoriteBefore ? "Removed from favorite" : "Added to favorite", Toast.LENGTH_SHORT).show();
     }
 
     @Override

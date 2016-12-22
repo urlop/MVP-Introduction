@@ -1,10 +1,12 @@
 package com.example.android0128.introductionmvp.movies;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.android0128.introductionmvp.R;
 import com.example.android0128.introductionmvp.data.QueryModel;
 import com.example.android0128.introductionmvp.data.network.QueryResult;
+import com.example.android0128.introductionmvp.data.source.QueryResponse;
 import com.example.android0128.introductionmvp.util.Constants;
 import com.example.android0128.introductionmvp.util.Network.APIError;
 import com.example.android0128.introductionmvp.util.Network.RequestManager;
@@ -36,6 +38,9 @@ public class MoviesPresenter implements MoviesContract.Presenter {
     String language;
     private boolean mFirstLoad = true;
     int page = 1;
+
+    boolean isInDB;
+    QueryResponse sugarResponse = new QueryResponse();
 
     public MoviesPresenter(@NonNull MoviesContract.View view, String language) {//@NonNull TasksRepository tasksRepository, @NonNull TasksContract.View tasksView) {
         /*mTasksRepository = checkNotNull(tasksRepository, "tasksRepository cannot be null");*/
@@ -117,7 +122,28 @@ public class MoviesPresenter implements MoviesContract.Presenter {
 
     @Override
     public void openMovieDetails(@NonNull QueryModel requestedMovie) {
+        ArrayList<QueryResponse> r = (ArrayList<QueryResponse>) QueryResponse.find(QueryResponse.class,"responseId = " + requestedMovie.getId());
+        if (r.size() > 0) {
+            for (QueryResponse a : r) {
+                a.delete();
+            }
+            mMoviesView.showFavoriteResult(true);
+        } else {
+            sugarResponse.setResponse_id(requestedMovie.getId());
+            sugarResponse.setPoster_path(requestedMovie.getPoster_path());
+            sugarResponse.setPopularity(requestedMovie.getPopularity());
+            sugarResponse.setOverview(requestedMovie.getOverview());
+            sugarResponse.setMedia_type(requestedMovie.getMedia_type());
+            sugarResponse.setFirst_air_date(requestedMovie.getFirst_air_date());
+            sugarResponse.setName(requestedMovie.getName());
+            sugarResponse.setProfile_path(requestedMovie.getProfile_path());
+            sugarResponse.setTitle(requestedMovie.getTitle());
+            sugarResponse.setBackdrop_path(requestedMovie.getBackdrop_path());
+            sugarResponse.setLanguage(language);
 
+            sugarResponse.save();
+            mMoviesView.showFavoriteResult(false);
+        }
     }
 
 }
