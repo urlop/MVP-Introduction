@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android0128.introductionmvp.data.source.QueryResponse;
+import com.example.android0128.introductionmvp.data.source.MovieDBResponse;
 import com.example.android0128.introductionmvp.util.view.HorizontalViewHolder;
 import com.example.android0128.introductionmvp.BuildConfig;
 import com.example.android0128.introductionmvp.util.Constants;
@@ -24,10 +24,10 @@ import static com.example.android0128.introductionmvp.util.Constants.NO_USER;
 public class ShowMoreFavoritesAdapter extends RecyclerView.Adapter<HorizontalViewHolder>  {
 
     Context context;
-    ArrayList<QueryResponse> query_ls;
+    ArrayList<MovieDBResponse> query_ls;
     int type;
 
-    public ShowMoreFavoritesAdapter(Context context, ArrayList<QueryResponse> query_ls, int type) {
+    public ShowMoreFavoritesAdapter(Context context, ArrayList<MovieDBResponse> query_ls, int type) {
         this.context = context;
         this.query_ls = query_ls;
         this.type = type;
@@ -87,7 +87,7 @@ public class ShowMoreFavoritesAdapter extends RecyclerView.Adapter<HorizontalVie
         return query_ls.size();
     }
 
-    public void addMoreToList(ArrayList<QueryResponse> new_List){
+    public void addMoreToList(ArrayList<MovieDBResponse> new_List){
         query_ls.addAll(new_List);
     }
 }

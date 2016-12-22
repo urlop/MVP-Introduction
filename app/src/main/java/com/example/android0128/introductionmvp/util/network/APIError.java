@@ -1,4 +1,4 @@
-package com.example.android0128.introductionmvp.util.Network;
+package com.example.android0128.introductionmvp.util.network;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

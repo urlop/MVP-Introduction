@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android0128.introductionmvp.BuildConfig;
+import com.example.android0128.introductionmvp.data.MovieModel;
 import com.example.android0128.introductionmvp.util.view.HorizontalViewHolder;
 import com.example.android0128.introductionmvp.util.Constants;
-import com.example.android0128.introductionmvp.data.QueryModel;
 import com.example.android0128.introductionmvp.R;
 import com.squareup.picasso.Picasso;
 
@@ -26,10 +26,10 @@ public class ShowMoreAdapter extends RecyclerView.Adapter<HorizontalViewHolder> 
 
     private MovieItemListener mItemListener;
     Context context;
-    ArrayList<QueryModel> query_ls;
+    ArrayList<MovieModel> query_ls;
     int type;
 
-    public ShowMoreAdapter(Context context, ArrayList<QueryModel> query_ls, int type, MovieItemListener mItemListener) {
+    public ShowMoreAdapter(Context context, ArrayList<MovieModel> query_ls, int type, MovieItemListener mItemListener) {
         this.context = context;
         this.query_ls = query_ls;
         this.type = type;
@@ -44,7 +44,7 @@ public class ShowMoreAdapter extends RecyclerView.Adapter<HorizontalViewHolder> 
 
     @Override
     public void onBindViewHolder(HorizontalViewHolder holder, final int position) {
-        final QueryModel item = query_ls.get(position);
+        final MovieModel item = query_ls.get(position);
         if (item.getPoster_path() != null) {
             Picasso.with(context).load(BuildConfig.IMAGE_URL + item
                     .getPoster_path()).resize(Constants.picasso_image_width, Constants.picasso_image_height).centerInside().into(holder.image_iv);
@@ -66,16 +66,16 @@ public class ShowMoreAdapter extends RecyclerView.Adapter<HorizontalViewHolder> 
         return query_ls.size();
     }
 
-    public void addMoreToList(ArrayList<QueryModel> new_List) {
+    public void addMoreToList(ArrayList<MovieModel> new_List) {
         query_ls.addAll(new_List);
     }
 
-    public void replaceData(ArrayList<QueryModel> tasks) {
+    public void replaceData(ArrayList<MovieModel> tasks) {
         query_ls = checkNotNull(tasks);
         notifyDataSetChanged();
     }
 
     public interface MovieItemListener {
-        void onItemClick(QueryModel clickedTask);
+        void onItemClick(MovieModel clickedTask);
     }
 }

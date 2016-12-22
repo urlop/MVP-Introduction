@@ -20,11 +20,10 @@ import android.support.annotation.NonNull;
 
 import com.example.android0128.introductionmvp.BasePresenter;
 import com.example.android0128.introductionmvp.BaseView;
-import com.example.android0128.introductionmvp.data.QueryModel;
-import com.example.android0128.introductionmvp.data.source.QueryResponse;
+import com.example.android0128.introductionmvp.data.MovieModel;
+import com.example.android0128.introductionmvp.data.source.MovieDBResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -35,9 +34,9 @@ public interface FavoriteMoviesContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showMovies(ArrayList<QueryResponse> movies);
+        void showMovies(ArrayList<MovieDBResponse> movies);
 
-        void showMovieDetailsUi(QueryModel movie);
+        void showMovieDetailsUi(MovieModel movie);
 
         void showLoadingMoviesError();
 
@@ -53,6 +52,6 @@ public interface FavoriteMoviesContract {
 
         void loadMovies(boolean forceUpdate);
 
-        void openMovieDetails(@NonNull QueryModel requestedMovie);
+        void openMovieDetails(@NonNull MovieModel requestedMovie);
     }
 }

@@ -1,21 +1,21 @@
 package com.example.android0128.introductionmvp.data.network;
 
-import com.example.android0128.introductionmvp.data.QueryModel;
+import com.example.android0128.introductionmvp.data.MovieModel;
 
 import java.util.List;
 
 /**
  * Created by tk-0130 on 9/28/16.
  */
-public class QueryResult {
-    List<QueryModel> results;
+public class MoviesList {
+    List<MovieModel> results;
     int page;
 
-    public List<QueryModel> getResults() {
+    public List<MovieModel> getResults() {
         return results;
     }
 
-    public void setResults(List<QueryModel> results) {
+    public void setResults(List<MovieModel> results) {
         this.results = results;
     }
 

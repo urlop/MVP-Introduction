@@ -3,14 +3,11 @@ package com.example.android0128.introductionmvp.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by tk-0130 on 9/28/16.
  */
-public class QueryModel extends RealmObject implements Parcelable {
-    @PrimaryKey
+public class MovieModel implements Parcelable {
+
     public String id;
     public String poster_path;
     public Double popularity;
@@ -22,11 +19,11 @@ public class QueryModel extends RealmObject implements Parcelable {
     public String title;
     public String backdrop_path;
 
-    public QueryModel() {
+    public MovieModel() {
 
     }
 
-    protected QueryModel(Parcel in) {
+    protected MovieModel(Parcel in) {
         id = in.readString();
         poster_path = in.readString();
         overview = in.readString();
@@ -39,15 +36,15 @@ public class QueryModel extends RealmObject implements Parcelable {
         popularity = in.readDouble();
     }
 
-    public static final Creator<QueryModel> CREATOR = new Creator<QueryModel>() {
+    public static final Creator<MovieModel> CREATOR = new Creator<MovieModel>() {
         @Override
-        public QueryModel createFromParcel(Parcel in) {
-            return new QueryModel(in);
+        public MovieModel createFromParcel(Parcel in) {
+            return new MovieModel(in);
         }
 
         @Override
-        public QueryModel[] newArray(int size) {
-            return new QueryModel[size];
+        public MovieModel[] newArray(int size) {
+            return new MovieModel[size];
         }
     };
 

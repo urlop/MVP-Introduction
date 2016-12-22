@@ -20,7 +20,7 @@ import android.support.annotation.NonNull;
 
 import com.example.android0128.introductionmvp.BasePresenter;
 import com.example.android0128.introductionmvp.BaseView;
-import com.example.android0128.introductionmvp.data.QueryModel;
+import com.example.android0128.introductionmvp.data.MovieModel;
 
 import java.util.List;
 
@@ -33,9 +33,9 @@ public interface MoviesContract {
 
         void setLoadingIndicator(boolean active);
 
-        void showMovies(List<QueryModel> movies);
+        void showMovies(List<MovieModel> movies);
 
-        void showMovieDetailsUi(QueryModel movie);
+        void showMovieDetailsUi(MovieModel movie);
 
         void showLoadingMoviesError();
 
@@ -54,6 +54,6 @@ public interface MoviesContract {
 
         void loadMovies(boolean forceUpdate);
 
-        void openMovieDetails(@NonNull QueryModel requestedMovie);
+        void openMovieDetails(@NonNull MovieModel requestedMovie);
     }
 }

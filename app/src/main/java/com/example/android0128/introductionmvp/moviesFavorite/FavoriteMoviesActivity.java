@@ -2,7 +2,6 @@ package com.example.android0128.introductionmvp.moviesFavorite;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,23 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android0128.introductionmvp.R;
-import com.example.android0128.introductionmvp.data.QueryModel;
-import com.example.android0128.introductionmvp.data.source.QueryResponse;
-import com.example.android0128.introductionmvp.movies.MovieActivity;
-import com.example.android0128.introductionmvp.movies.MoviesContract;
+import com.example.android0128.introductionmvp.data.MovieModel;
+import com.example.android0128.introductionmvp.data.source.MovieDBResponse;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.android0128.introductionmvp.util.Constants.SHOW_MORE_TYPE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class FavoriteMoviesActivity extends AppCompatActivity implements FavoriteMoviesContract.View {
@@ -143,7 +136,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
     }
 
     @Override
-    public void showMovies(ArrayList<QueryResponse> movies) {
+    public void showMovies(ArrayList<MovieDBResponse> movies) {
         adapter = new ShowMoreFavoritesAdapter(context, movies, 1);
         setupRecyclerView();
         /*mTasksView.setVisibility(View.VISIBLE);
@@ -151,7 +144,7 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
     }
 
     @Override
-    public void showMovieDetailsUi(QueryModel movie) {
+    public void showMovieDetailsUi(MovieModel movie) {
         //TODO fill
     }
 

@@ -1,17 +1,14 @@
 package com.example.android0128.introductionmvp.movies;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.example.android0128.introductionmvp.R;
-import com.example.android0128.introductionmvp.data.QueryModel;
-import com.example.android0128.introductionmvp.data.network.QueryResult;
-import com.example.android0128.introductionmvp.data.source.QueryResponse;
+import com.example.android0128.introductionmvp.data.MovieModel;
+import com.example.android0128.introductionmvp.data.network.MoviesList;
+import com.example.android0128.introductionmvp.data.source.MovieDBResponse;
 import com.example.android0128.introductionmvp.util.Constants;
-import com.example.android0128.introductionmvp.util.Network.APIError;
-import com.example.android0128.introductionmvp.util.Network.RequestManager;
-import com.example.android0128.introductionmvp.util.Network.Services;
-import com.example.android0128.introductionmvp.util.UIHelper;
+import com.example.android0128.introductionmvp.util.network.APIError;
+import com.example.android0128.introductionmvp.util.network.RequestManager;
+import com.example.android0128.introductionmvp.util.network.Services;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -39,7 +36,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
     private boolean mFirstLoad = true;
     int page = 1;
 
-    QueryResponse sugarResponse = new QueryResponse();
+    MovieDBResponse sugarResponse = new MovieDBResponse();
 
     public MoviesPresenter(@NonNull MoviesContract.View view, String language) {//@NonNull TasksRepository tasksRepository
         /*mTasksRepository = checkNotNull(tasksRepository, "tasksRepository cannot be null");*/
@@ -70,12 +67,12 @@ public class MoviesPresenter implements MoviesContract.Presenter {
             mTasksRepository.refreshTasks();
         }*/
 
-        Call<QueryResult> call = networkService.getPopularMovies(Constants.API_KEY, language, page);
-        call.enqueue(new Callback<QueryResult>() {
+        Call<MoviesList> call = networkService.getPopularMovies(Constants.API_KEY, language, page);
+        call.enqueue(new Callback<MoviesList>() {
             @Override
-            public void onResponse(Call<QueryResult> call, Response<QueryResult> response) {
+            public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
                 if (response.isSuccessful()) {
-                    List<QueryModel> response_ls = response.body().getResults();
+                    List<MovieModel> response_ls = response.body().getResults();
                     processData(response_ls);
                     page++;
                 }
@@ -96,7 +93,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
             }
 
             @Override
-            public void onFailure(Call<QueryResult> call, Throwable t) {
+            public void onFailure(Call<MoviesList> call, Throwable t) {
                 if (!mMoviesView.isActive()) {
                     return;
                 }
@@ -106,7 +103,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
 
     }
 
-    private void processData(List<QueryModel> list) {
+    private void processData(List<MovieModel> list) {
         if (list.isEmpty()) {
             processEmptyData();
         } else {
@@ -120,10 +117,10 @@ public class MoviesPresenter implements MoviesContract.Presenter {
     }
 
     @Override
-    public void openMovieDetails(@NonNull QueryModel requestedMovie) {
-        ArrayList<QueryResponse> r = (ArrayList<QueryResponse>) QueryResponse.find(QueryResponse.class,"responseId = " + requestedMovie.getId());
+    public void openMovieDetails(@NonNull MovieModel requestedMovie) {
+        ArrayList<MovieDBResponse> r = (ArrayList<MovieDBResponse>) MovieDBResponse.find(MovieDBResponse.class,"responseId = " + requestedMovie.getId());
         if (r.size() > 0) {
-            for (QueryResponse a : r) {
+            for (MovieDBResponse a : r) {
                 a.delete();
             }
             mMoviesView.showFavoriteResult(true);

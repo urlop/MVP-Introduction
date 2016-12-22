@@ -2,24 +2,10 @@ package com.example.android0128.introductionmvp.moviesFavorite;
 
 import android.support.annotation.NonNull;
 
-import com.example.android0128.introductionmvp.data.QueryModel;
-import com.example.android0128.introductionmvp.data.network.QueryResult;
-import com.example.android0128.introductionmvp.data.source.QueryResponse;
-import com.example.android0128.introductionmvp.movies.MoviesContract;
-import com.example.android0128.introductionmvp.util.Constants;
-import com.example.android0128.introductionmvp.util.Network.APIError;
-import com.example.android0128.introductionmvp.util.Network.RequestManager;
-import com.example.android0128.introductionmvp.util.Network.Services;
+import com.example.android0128.introductionmvp.data.MovieModel;
+import com.example.android0128.introductionmvp.data.source.MovieDBResponse;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Converter;
-import retrofit2.Response;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -59,11 +45,11 @@ public class FavoriteMoviesPresenter implements FavoriteMoviesContract.Presenter
         /*if (forceUpdate) {
             mTasksRepository.refreshTasks();
         }*/
-        ArrayList<QueryResponse> favorite_ls = (ArrayList<QueryResponse>) QueryResponse.listAll(QueryResponse.class);
+        ArrayList<MovieDBResponse> favorite_ls = (ArrayList<MovieDBResponse>) MovieDBResponse.listAll(MovieDBResponse.class);
         processData(favorite_ls);
     }
 
-    private void processData(ArrayList<QueryResponse> list) {
+    private void processData(ArrayList<MovieDBResponse> list) {
         if (list.isEmpty()) {
             processEmptyData();
         } else {
@@ -77,7 +63,7 @@ public class FavoriteMoviesPresenter implements FavoriteMoviesContract.Presenter
     }
 
     @Override
-    public void openMovieDetails(@NonNull QueryModel requestedMovie) {
+    public void openMovieDetails(@NonNull MovieModel requestedMovie) {
         //TODO Fill
     }
 

@@ -1,4 +1,4 @@
-package com.example.android0128.introductionmvp.util.Network;
+package com.example.android0128.introductionmvp.util.network;
 
 import android.content.Context;
 

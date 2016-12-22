@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,9 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android0128.introductionmvp.R;
-import com.example.android0128.introductionmvp.data.Injection;
-import com.example.android0128.introductionmvp.data.QueryModel;
-import com.example.android0128.introductionmvp.data.source.QueryResponse;
+import com.example.android0128.introductionmvp.data.MovieModel;
 import com.example.android0128.introductionmvp.moviesFavorite.FavoriteMoviesActivity;
 
 import java.util.ArrayList;
@@ -36,8 +33,6 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.android0128.introductionmvp.util.Constants.QUERY_FOR_SEARCH;
-import static com.example.android0128.introductionmvp.util.Constants.SEARCH_TYPE;
 import static com.example.android0128.introductionmvp.util.Constants.SHOW_MORE_TYPE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -60,8 +55,8 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
 
     private GridLayoutManager lManager;
     private ShowMoreAdapter adapter;
-    ArrayList<QueryModel> query_ls = new ArrayList<>();
-    ArrayList<QueryModel> new_query_ls = new ArrayList<>();
+    ArrayList<MovieModel> query_ls = new ArrayList<>();
+    ArrayList<MovieModel> new_query_ls = new ArrayList<>();
     int page = 1;
     int showMoreType = 0;
 
@@ -222,7 +217,7 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
         rv_show_more.setAdapter(adapter);
     }
 
-    private void notifyToAdapter(ArrayList<QueryModel> new_query_ls) {
+    private void notifyToAdapter(ArrayList<MovieModel> new_query_ls) {
         adapter.addMoreToList(new_query_ls);
         adapter.notifyDataSetChanged();
     }
@@ -233,8 +228,8 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
     }
 
     @Override
-    public void showMovies(List<QueryModel> movies) {
-        notifyToAdapter((ArrayList<QueryModel>) movies);
+    public void showMovies(List<MovieModel> movies) {
+        notifyToAdapter((ArrayList<MovieModel>) movies);
 
         ll_rv_show_more.setVisibility(View.VISIBLE);
         pb_shows_more.setVisibility(View.GONE);
@@ -243,9 +238,9 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
     }
 
     @Override
-    public void showMovieDetailsUi(QueryModel model) {
+    public void showMovieDetailsUi(MovieModel model) {
         //TODO fill
-        /*QueryModel item = query_ls.get(position);
+        /*MovieModel item = query_ls.get(position);
         Intent i = new Intent(context, ItemDetailActivity.class);
         i.putExtra("models",item);
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -285,7 +280,7 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
      */
     ShowMoreAdapter.MovieItemListener mItemListener = new ShowMoreAdapter.MovieItemListener() {
         @Override
-        public void onItemClick(QueryModel clicked) {
+        public void onItemClick(MovieModel clicked) {
             mPresenter.openMovieDetails(clicked);
         }
     };

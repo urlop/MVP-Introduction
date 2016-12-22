@@ -8,7 +8,7 @@ import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 @Table(name = "queryResponse")
-public class QueryResponse extends SugarRecord implements Parcelable {
+public class MovieDBResponse extends SugarRecord implements Parcelable {
 
     @SerializedName("id")
     public String response_id;
@@ -23,7 +23,7 @@ public class QueryResponse extends SugarRecord implements Parcelable {
     public String backdrop_path;
     public String language;
 
-    protected QueryResponse(Parcel in) {
+    protected MovieDBResponse(Parcel in) {
         response_id = in.readString();
         poster_path = in.readString();
         overview = in.readString();
@@ -36,17 +36,17 @@ public class QueryResponse extends SugarRecord implements Parcelable {
         language = in.readString();
     }
 
-    public QueryResponse() {
+    public MovieDBResponse() {
     }
-    public static final Creator<QueryResponse> CREATOR = new Creator<QueryResponse>() {
+    public static final Creator<MovieDBResponse> CREATOR = new Creator<MovieDBResponse>() {
         @Override
-        public QueryResponse createFromParcel(Parcel in) {
-            return new QueryResponse(in);
+        public MovieDBResponse createFromParcel(Parcel in) {
+            return new MovieDBResponse(in);
         }
 
         @Override
-        public QueryResponse[] newArray(int size) {
-            return new QueryResponse[size];
+        public MovieDBResponse[] newArray(int size) {
+            return new MovieDBResponse[size];
         }
     };
 
