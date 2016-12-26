@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.example.android0128.introductionmvp.data.MovieModel;
 import com.example.android0128.introductionmvp.data.network.MoviesList;
 import com.example.android0128.introductionmvp.data.source.MovieDBResponse;
+import com.example.android0128.introductionmvp.data.source.remote.QueryCallback;
+import com.example.android0128.introductionmvp.data.source.remote.QueryInteractor;
 import com.example.android0128.introductionmvp.util.Constants;
 import com.example.android0128.introductionmvp.util.network.APIError;
 import com.example.android0128.introductionmvp.util.network.RequestManager;
@@ -26,11 +28,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Retrofit reference: https://github.com/jeancsanchez/Simple-MVP-Retrofit-example/blob/master/app/src/main/java/com/example/jean/retrofitexample/Presenter/CountryPresenter.java
  * Realm reference: https://github.com/NileshJarad/android-mvp-material-and-realm/blob/master/MyApplication/android-mvp-material-and-realm-master/src/main/java/com/nileshjarad/realmdemo/presenters/ShowVisitingCardsInteractor.java
  */
-public class MoviesPresenter implements MoviesContract.Presenter {
+public class MoviesPresenter implements MoviesContract.Presenter, QueryCallback {
 
-    private final Services networkService;
-    //private final TasksRepository mTasksRepository;
     private final MoviesContract.View mMoviesView;
+    private QueryInteractor queryInteractor;
 
     String language;
     private boolean mFirstLoad = true;
@@ -38,12 +39,11 @@ public class MoviesPresenter implements MoviesContract.Presenter {
 
     MovieDBResponse sugarResponse = new MovieDBResponse();
 
-    public MoviesPresenter(@NonNull MoviesContract.View view, String language) {//@NonNull TasksRepository tasksRepository
-        /*mTasksRepository = checkNotNull(tasksRepository, "tasksRepository cannot be null");*/
+    public MoviesPresenter(@NonNull MoviesContract.View view, String language) {
         mMoviesView = checkNotNull(view, "moviesView cannot be null!");
         mMoviesView.setPresenter(this);
 
-        networkService = new RequestManager().getWebServices();
+        queryInteractor = new QueryInteractor(new RequestManager().getWebServices());
         this.language = language;
     }
 
@@ -63,44 +63,8 @@ public class MoviesPresenter implements MoviesContract.Presenter {
         if (showLoadingUI) {
             mMoviesView.setLoadingIndicator(true);
         }
-        /*if (forceUpdate) {
-            mTasksRepository.refreshTasks();
-        }*/
 
-        Call<MoviesList> call = networkService.getPopularMovies(Constants.API_KEY, language, page);
-        call.enqueue(new Callback<MoviesList>() {
-            @Override
-            public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
-                if (response.isSuccessful()) {
-                    List<MovieModel> response_ls = response.body().getResults();
-                    processData(response_ls);
-                    page++;
-                }
-
-                //TODO CHECK WHERE TO PUT THIS REPEATED CODE
-                if (!response.isSuccessful()) {
-                    String error;
-                    try {
-                        APIError apiError;
-                        Converter<ResponseBody, APIError> converter = RequestManager.getRetrofit().responseBodyConverter(APIError.class, new Annotation[0]);
-                        apiError = converter.convert(response.errorBody());
-                        error = apiError.getError();
-                        mMoviesView.showLoadingMoviesError(error);
-                    } catch (Exception e) {
-                        mMoviesView.showLoadingMoviesError();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MoviesList> call, Throwable t) {
-                if (!mMoviesView.isActive()) {
-                    return;
-                }
-                mMoviesView.showLoadingMoviesError();
-            }
-        });
-
+        queryInteractor.requestMovies(language, page, this);
     }
 
     private void processData(List<MovieModel> list) {
@@ -118,7 +82,7 @@ public class MoviesPresenter implements MoviesContract.Presenter {
 
     @Override
     public void openMovieDetails(@NonNull MovieModel requestedMovie) {
-        ArrayList<MovieDBResponse> r = (ArrayList<MovieDBResponse>) MovieDBResponse.find(MovieDBResponse.class,"responseId = " + requestedMovie.getId());
+        ArrayList<MovieDBResponse> r = (ArrayList<MovieDBResponse>) MovieDBResponse.find(MovieDBResponse.class, "responseId = " + requestedMovie.getId());
         if (r.size() > 0) {
             for (MovieDBResponse a : r) {
                 a.delete();
@@ -142,4 +106,22 @@ public class MoviesPresenter implements MoviesContract.Presenter {
         }
     }
 
+    @Override
+    public void onQueryCallSuccess(Object object, int type) {
+        List<MovieModel> response_ls = ((MoviesList) object).getResults();
+        processData(response_ls);
+        page++;
+    }
+
+    @Override
+    public void onQueryCallError(Object object, int type) {
+        if (!mMoviesView.isActive()) {
+            return;
+        }
+        if (object != null) {
+            mMoviesView.showLoadingMoviesError((String) object);
+        } else {
+            mMoviesView.showLoadingMoviesError();
+        }
+    }
 }

@@ -31,4 +31,5 @@ public interface Constants {
 
     public static final int picasso_image_width = 400;
     public static final int picasso_image_height = 500;
+
 }

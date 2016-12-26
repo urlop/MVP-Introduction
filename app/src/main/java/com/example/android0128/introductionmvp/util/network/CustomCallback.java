@@ -1,10 +1,8 @@
 package com.example.android0128.introductionmvp.util.network;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.example.android0128.introductionmvp.R;
-import com.example.android0128.introductionmvp.util.UIHelper;
+import com.example.android0128.introductionmvp.data.source.remote.QueryCallback;
+import com.example.android0128.introductionmvp.util.network.APIError;
+import com.example.android0128.introductionmvp.util.network.RequestManager;
 
 import java.lang.annotation.Annotation;
 
@@ -15,38 +13,37 @@ import retrofit2.Converter;
 import retrofit2.Response;
 
 /**
- * Created by tk-0130 on 11/8/16.
+ * Created by android0128 on 12/26/16.
  */
 
-public class CustomCallback<T> implements Callback<T> {
+public class CustomCallback implements Callback {
 
-    private final Context context;
-    private boolean showAPIError;
+    QueryCallback queryCallback;
 
-    public CustomCallback(Context context, boolean showAPIError) {
-        this.context = context;
-        this.showAPIError = showAPIError;
+    public CustomCallback(QueryCallback queryCallback) {
+        this.queryCallback = queryCallback;
     }
 
     @Override
-    public void onResponse(Call<T> call, Response<T> response) {
-        if(!response.isSuccessful() && showAPIError){
+    public void onResponse(Call call, Response response) {
+        if (response.isSuccessful()) {
+            queryCallback.onQueryCallSuccess(response.body());
+        } else {
             String error;
             try {
                 APIError apiError;
                 Converter<ResponseBody, APIError> converter = RequestManager.getRetrofit().responseBodyConverter(APIError.class, new Annotation[0]);
                 apiError = converter.convert(response.errorBody());
                 error = apiError.getError();
+                queryCallback.onQueryCallError(error);
             } catch (Exception e) {
-                error = context.getString(R.string.ws_error);
+                queryCallback.onQueryCallError(null);
             }
-            UIHelper.createErrorDialog(null,error,context);
         }
-
     }
 
     @Override
-    public void onFailure(Call<T> call, Throwable t) {
-        Log.d("ERROR", t.getMessage());
+    public void onFailure(Call call, Throwable t) {
+        queryCallback.onQueryCallError("Error");
     }
 }
