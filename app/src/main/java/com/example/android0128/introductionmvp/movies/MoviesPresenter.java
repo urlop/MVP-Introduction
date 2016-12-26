@@ -107,14 +107,14 @@ public class MoviesPresenter implements MoviesContract.Presenter, QueryCallback 
     }
 
     @Override
-    public void onQueryCallSuccess(Object object, int type) {
+    public void onQueryCallSuccess(Object object) {
         List<MovieModel> response_ls = ((MoviesList) object).getResults();
         processData(response_ls);
         page++;
     }
 
     @Override
-    public void onQueryCallError(Object object, int type) {
+    public void onQueryCallError(Object object) {
         if (!mMoviesView.isActive()) {
             return;
         }
