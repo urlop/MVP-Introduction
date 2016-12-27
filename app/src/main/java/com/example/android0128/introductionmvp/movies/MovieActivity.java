@@ -69,6 +69,7 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        ButterKnife.setDebug(true);
         ButterKnife.bind(this);
 
         // Create the presenter
