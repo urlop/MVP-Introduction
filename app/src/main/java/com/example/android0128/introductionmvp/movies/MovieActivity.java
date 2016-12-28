@@ -25,18 +25,23 @@ import android.widget.Toast;
 import com.example.android0128.introductionmvp.R;
 import com.example.android0128.introductionmvp.data.MovieModel;
 import com.example.android0128.introductionmvp.moviesFavorite.FavoriteMoviesActivity;
+import com.example.android0128.introductionmvp.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.Component;
 
 import static com.example.android0128.introductionmvp.util.Constants.SHOW_MORE_TYPE;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class MovieActivity extends AppCompatActivity implements MoviesContract.View{
+public class MovieActivity extends AppCompatActivity implements MoviesContract.View {
 
     @BindView(R.id.rv_show_more)
     RecyclerView rv_show_more;
@@ -63,26 +68,19 @@ public class MovieActivity extends AppCompatActivity implements MoviesContract.V
     Context context;
     SearchView searchView = null;
 
-    private MoviesContract.Presenter mPresenter;
+    @Inject
+    MoviesContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-        ButterKnife.setDebug(true);
         ButterKnife.bind(this);
 
         // Create the presenter
-        Locale locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            locale = getResources().getConfiguration().getLocales().get(0);
-        } else {
-            locale = getResources().getConfiguration().locale;
-        }
-        String language = locale.getLanguage();
-        mPresenter = new MoviesPresenter(//Injection.provideTasksRepository(getApplicationContext()),
-                this, language);
-
+        DaggerMoviesComponent.builder()
+                .moviesPresenterModule(new MoviesPresenterModule(this, Utils.getLocale(this))).build()
+                .inject(this);
 
         ll_rv_show_more.setVisibility(View.GONE);
         pb_shows_more.setVisibility(View.VISIBLE);

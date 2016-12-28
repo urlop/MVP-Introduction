@@ -16,6 +16,8 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Retrofit reference: https://github.com/jeancsanchez/Simple-MVP-Retrofit-example/blob/master/app/src/main/java/com/example/jean/retrofitexample/Presenter/CountryPresenter.java
  * Realm reference: https://github.com/NileshJarad/android-mvp-material-and-realm/blob/master/MyApplication/android-mvp-material-and-realm-master/src/main/java/com/nileshjarad/realmdemo/presenters/ShowVisitingCardsInteractor.java
  */
-public class MoviesPresenter implements MoviesContract.Presenter, QueryCallback {
+final class MoviesPresenter implements MoviesContract.Presenter, QueryCallback {
 
     private final MoviesContract.View mMoviesView;
     private QueryInteractor queryInteractor;
@@ -39,7 +41,8 @@ public class MoviesPresenter implements MoviesContract.Presenter, QueryCallback 
 
     MovieDBResponse sugarResponse = new MovieDBResponse();
 
-    public MoviesPresenter(@NonNull MoviesContract.View view, String language) {
+    @Inject
+    MoviesPresenter(@NonNull MoviesContract.View view, String language) {
         mMoviesView = checkNotNull(view, "moviesView cannot be null!");
         mMoviesView.setPresenter(this);
 
