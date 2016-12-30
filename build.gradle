@@ -41,8 +41,10 @@ ext {
     runnerVersion = '0.5'
     rulesVersion = '0.5'
     espressoVersion = '2.2.2'
+
     daggerVersion = '2.4' //Must be >= 2.4 when ButterKnife is >= 8.2.0
     dexmakerVersion = '1.2'
     butterKnife = '8.4.0'
     sugar = '1.4'
+
 }
