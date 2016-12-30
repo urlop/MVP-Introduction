@@ -186,4 +186,5 @@ public class FavoriteMoviesActivity extends AppCompatActivity implements Favorit
         super.onResume();
         mPresenter.start();
     }
+
 }
