@@ -30,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Retrofit reference: https://github.com/jeancsanchez/Simple-MVP-Retrofit-example/blob/master/app/src/main/java/com/example/jean/retrofitexample/Presenter/CountryPresenter.java
  * Realm reference: https://github.com/NileshJarad/android-mvp-material-and-realm/blob/master/MyApplication/android-mvp-material-and-realm-master/src/main/java/com/nileshjarad/realmdemo/presenters/ShowVisitingCardsInteractor.java
  */
-final class MoviesPresenter implements MoviesContract.Presenter, QueryCallback {
+public final class MoviesPresenter implements MoviesContract.Presenter, QueryCallback {
 
     private final MoviesContract.View mMoviesView;
     private QueryInteractor queryInteractor;
@@ -42,7 +42,7 @@ final class MoviesPresenter implements MoviesContract.Presenter, QueryCallback {
     MovieDBResponse sugarResponse = new MovieDBResponse();
 
     @Inject
-    MoviesPresenter(@NonNull MoviesContract.View view, String language) {
+    public MoviesPresenter(MoviesContract.View view, String language) {
         mMoviesView = checkNotNull(view, "moviesView cannot be null!");
         mMoviesView.setPresenter(this);
 

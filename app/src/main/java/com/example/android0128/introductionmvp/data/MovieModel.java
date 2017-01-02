@@ -23,6 +23,19 @@ public class MovieModel implements Parcelable {
 
     }
 
+    public MovieModel(String id, String poster_path, Double popularity, String overview, String media_type, String first_air_date, String name, String profile_path, String title, String backdrop_path) {
+        this.id = id;
+        this.poster_path = poster_path;
+        this.popularity = popularity;
+        this.overview = overview;
+        this.media_type = media_type;
+        this.first_air_date = first_air_date;
+        this.name = name;
+        this.profile_path = profile_path;
+        this.title = title;
+        this.backdrop_path = backdrop_path;
+    }
+
     protected MovieModel(Parcel in) {
         id = in.readString();
         poster_path = in.readString();
