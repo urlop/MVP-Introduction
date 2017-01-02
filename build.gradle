@@ -9,6 +9,7 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:2.0.2"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
@@ -22,9 +23,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+// Define versions in a single place
 ext {
     // Sdk and tools
-    minSdkVersion = 14
+    minSdkVersion = 19
     targetSdkVersion = 25
     compileSdkVersion = 25
     buildToolsVersion = '25.0.0'
@@ -40,8 +42,9 @@ ext {
     rulesVersion = '0.5'
     espressoVersion = '2.2.2'
 
-    sugar = '1.4'
-    daggerVersion = '2.8'
+    daggerVersion = '2.4' //Must be >= 2.4 when ButterKnife is >= 8.2.0
     dexmakerVersion = '1.2'
+    butterKnife = '8.4.0'
+    sugar = '1.4'
 
 }
