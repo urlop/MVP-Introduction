@@ -6,6 +6,7 @@ import com.example.android0128.introductionmvp.data.source.remote.QueryInteracto
 import com.example.android0128.introductionmvp.movies.MoviesContract;
 import com.example.android0128.introductionmvp.movies.MoviesPresenter;
 import com.example.android0128.introductionmvp.util.network.RequestManager;
+import com.example.android0128.introductionmvp.util.network.Services;
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
@@ -13,16 +14,20 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InOrder;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
-import okhttp3.Call;
+import okhttp3.Response;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +35,7 @@ import static org.mockito.Mockito.when;
  * Created by Ruby on 01/01/2017.
  */
 
-public class MoviesPresenterTest {
+public class MoviesPresenter2Test {
 
     private static List<MovieModel> MOVIES;
 
@@ -39,6 +44,8 @@ public class MoviesPresenterTest {
 
     @Mock
     private MoviesContract.View mMoviesView;
+
+    //private Client client;
 
     /**
      * {@link ArgumentCaptor} is a powerful Mockito API to capture argument values and use them to
@@ -59,6 +66,11 @@ public class MoviesPresenterTest {
 
         // Get a reference to the class under test
         mMoviesPresenter = new MoviesPresenter(mMoviesView, "en");
+        //client = mock(Services.class);
+
+        ArgumentCaptor<MovieModel> argument = ArgumentCaptor.forClass(MovieModel.class);
+        //verify(mock(Services.class)).(argument.capture());
+        assertEquals("John", argument.getValue().getName());
 
         queryInteractor = new QueryInteractor(new RequestManager().getWebServices());
 
@@ -103,5 +115,15 @@ public class MoviesPresenterTest {
 
         // Then task detail UI is shown
         verify(mMoviesView).showFavoriteResult(true);
+    }
+
+    protected void mockResponseWithCodeAndContent(int httpCode, String content) throws IOException {
+        Response response = createResponseWithCodeAndJson(httpCode, content);
+        //when(client.execute(Matchers.anyObject())).thenReturn(response);
+    }
+
+    private Response createResponseWithCodeAndJson(int responseCode, String json) {
+        return null;
+        //return new Response(responseCode, "nothing", Collections.EMPTY_LIST, new TypedByteArray("application/json", json.getBytes()));
     }
 }
